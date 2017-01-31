@@ -2,7 +2,7 @@
 C Programming Indivudal Assemnet: Group 1
 Program written by: Lucas Alava Pena
 Program's Purpose:
-Plot streamlines using Euler (1) or Runge Method (2), as described in excercise sheet
+Plot streamlines using Euler (1) or Runge-Kutta Method (2), as described in excercise sheet
 */
 #include <stdio.h>
 
@@ -38,7 +38,7 @@ double v_old_calc(double x_old, double y_old) { // v_old_calc function which cal
 	v_old=(y_old)/(2*3.1415926*((x_old*x_old)+(y_old*y_old))); //Calculates v_old using function given in sheet
 	return v_old; //returns value to be used in calulation
 }
-double euler_method (){
+double euler_method (){ //euler method calculation function
 //open/create file and make it writeable
 	FILE*fid1;
 	fid1=fopen("stream.plt","w");
@@ -50,7 +50,7 @@ double euler_method (){
 		x_old=-1; // assigns first x value
 		while (-1<=y_old && y_old<=1 &&-1<=x_old && x_old<=1){ // while loop to ensure				
 			fprintf(fid1, "\n%lf    %lf", x_old, y_old);//prints x and y value into file
-			x_new=x_old+u_old_calc(x_old,y_old)*dt; // calculates new y value
+			x_new=x_old+u_old_calc(x_old,y_old)*dt; // calculates new x value
 			y_new=y_old+v_old_calc(x_old,y_old)*dt;// calculates new y value
 			y_old=y_new;
 			x_old=x_new;
@@ -67,7 +67,7 @@ double euler_method (){
 	}
 	return (0);
 }
-double RK_method (){
+double RK_method (){ //Runge-Kutta method calculation function
 //open/create file and make it writeable
 	FILE*fid1;
 	dt=0.05; // higher as it is more accurate, not needed to be changed if wanted
@@ -108,16 +108,16 @@ int main () {
 	while (no_streamlines<=0){
 		goto input;
 	}
-	dt=0.01; // change for other one
+	dt=0.01; // dt used in calculation can be decreased if wanted, note this is changed for the Runge-Kutta method
 	counter_streamlines=0; // counter_streamlines for each streamline
 	counter_loop=0; //counter_streamlines for each streamline data point	
 	methodinput: // with checks to ensure only 1 or 2 are inputted otherwise they are brought back to input data again
 	printf (" Please enter the Method wanted (1) for Euler method and (2) for Runge-Kutta method: "); //asks for input
 	scanf ("%i" ,&inputed_method);//stores input into inputed_method
-	if (inputed_method==1){ //checks if input_method is equal to 2 so that it can call the request function, in this case the RK_method
+	if (inputed_method==1){ //checks if input_method is equal to 2 so that it can call the request function, in this case the euler method
 		euler_method(); //calls euler_method function
 	}
-	else if (inputed_method==2){ //checks if input_method is equal to 2 so that it can call the request function, in this case the RK_method
+	else if (inputed_method==2){ //checks if input_method is equal to 2 so that it can call the request function, in this case the Runge-Kutta method
 		RK_method(); //calls RK_method function
 	}
 	else {
